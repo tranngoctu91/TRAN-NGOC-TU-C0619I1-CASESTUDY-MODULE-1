@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ninjaaa</title>
+</head>
+<body>
+<canvas id="canvas" width="1000px" height="600" style="border: 10px solid green "></canvas>
+</body>
+<script>
+    let Ninja = function (x, y, speed) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.canvas = document.getElementById('canvas');
+        this.step = 1;
+        this.img = 'down';
+        this.draw = function () {
+            let img = new Image();
+            img.src = this.img + this.step + ".png";
+            let ctx = document.getElementById('canvas').getContext('2d');
+            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            ctx.drawImage(img, this.x, this.y);
+        };
+        this.ninjaMoveup = function () {
+            if (this.y > 0) {
+                this.y -= this.speed;
+                this.img = "up";
+            }
+        };
+        this.ninjaMovedown = function () {
+            if (this.y < this.canvas.height - 50) {
+                this.y += this.speed;
+                this.img = 'down';
+            }
+        };
+        this.ninjaMoveleft = function () {
+            if (this.x > 0) {
+                this.x -= this.speed;
+                this.img = 'left';
+            }
+        };
+        this.ninjaMoveright = function () {
+            if (this.x < this.canvas.width - 50) {
+                this.x += this.speed;
+                this.img = 'right';
+            }
+        };
+    };
+    let ninja_1 = new Ninja(500, 300, 10);
+    ninja_1.draw();
+
+    function moveSelection(move) {
+        switch (move.keyCode) {
+            case 38:
+                ninja_1.ninjaMoveup();
+                break;
+            case 40:
+                ninja_1.ninjaMovedown();
+                break;
+            case 39:
+                ninja_1.ninjaMoveright();
+                break;
+            case 37:
+                ninja_1.ninjaMoveleft();
+                break;
+
+        }
+        if (ninja_1.step == 1) {
+            ninja_1.step = 2;
+        } else {
+            ninja_1.step = 1;
+        }
+
+        ninja_1.draw();
+    }
+    window.onload = ninja_1.draw();
+    window.addEventListener('keydown', moveSelection);
+</script>
+</html>
